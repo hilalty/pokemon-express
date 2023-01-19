@@ -15,12 +15,10 @@ const methodOverride = require("method-override");
  */
 const PORT = 3000;
 
-/**
- * Controllers
- */
-// Our controller will eventually go here!
 
-//... and then farther down the file
+const pokemonController = require("./controllers/pokemonController");
+
+
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -44,17 +42,17 @@ app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
 /**
  * View engine
  */
 app.set("view engine", "jsx");
 app.engine("jsx", require("jsx-view-engine").createEngine());
 
+app.use("/pokemon", pokemonController);
 
 // Basic index route!
 app.get("/", (req, res) => {
-  res.send("Poke Ball is ready!");
+  res.redirect("/pokemon/");
 });
 
 // Listen on the port
